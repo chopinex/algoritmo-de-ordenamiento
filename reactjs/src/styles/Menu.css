@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+.principal{
+    color: deepskyblue;
+    font-size: 1.2em;
+    font-family: Merriweather,serif;
+    font-weight: bold;
+}
+
+select,input{
+    margin: 0 20px 0 5px;
+    color: white;
+    font-size: 0.8em;
+    border: white 2px solid;
+    border-radius: 5px;
+    font-family: Merriweather,serif;
+    background-color: black;
+}

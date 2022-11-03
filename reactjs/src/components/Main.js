@@ -1,5 +1,5 @@
 import Elemento from './Elemento.js';
-import {useState} from "react";
+import {useState,useEffect} from "react";
 import '../styles/Main.css';
 
 function shuffle(array) {
@@ -21,7 +21,6 @@ function shuffle(array) {
 }
 
 function Main(props){
-    const itemRefs = useRef([]);
 
     const elems=[];
     const rojo = (227-247)/props.cant;
@@ -29,19 +28,50 @@ function Main(props){
     const azul = 72/props.cant;
     const tam = 72/props.cant;
     
+    const [bancho,setBancho]=useState(Array(props.cant).fill('2px'));
+    const [bcolor,setBcolor]=useState(Array(props.cant).fill('lightslategray'));
     const [swap1,setSwap1]=useState(0);
-    const [swap2,setSwap2]=useState(9);
+    const [swap2,setSwap2]=useState(2);
+    const [separacion,setSeparacion]=useState(0);
+    
 
     for(let i=0;i<props.cant;i++){
         elems.push(<Elemento size={18+tam*i + 'px'} color={'rgb(' + String(247+rojo*i) +
-         ',' + String(255+verde*i) + ',' + String(azul*i) + ')'} key={i} />);
+         ',' + String(255+verde*i) + ',' + String(azul*i) + ')'} bancho={bancho[i]} 
+         bcolor={bcolor[i]} key={i} />);
     }
-
+    
     shuffle(elems);
-    console.log(elems[i]);
+
+    useEffect(() =>{
+        let sep=0;
+        for(let i=swap1+1;i<swap2;i++)
+            sep+=parseFloat(elems[i].props.size.slice(0,-2))+4;
+        sep+=parseFloat(elems[swap1].props.size.slice(0,-2))/2+4;
+        sep+=parseFloat(elems[swap2].props.size.slice(0,-2))/2+4;
+        setSeparacion(sep);
+
+        const newAnchos = [...bancho];
+        const newColor = [...bcolor];
+        
+        for(let i=0;i<props.cant;i++) {
+            if (i===swap1 || i===swap2){
+                newAnchos[i] = '4px';
+                newColor[i] = 'deepskyblue';
+            }
+            else{
+                newAnchos[i] = '2px';
+                newColor[i] = 'lightslategray';   
+            }
+        };
+
+        setBancho(newAnchos);
+        setBcolor(newColor);
+
+    },[swap1,swap2]);
 
     return(
-        <div className="central">
+        <div className="central" on>
             {elems}
         </div>
     );

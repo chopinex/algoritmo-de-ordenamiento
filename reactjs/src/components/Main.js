@@ -44,15 +44,8 @@ function Main(props){
     shuffle(elems);
 
     useEffect(() =>{
-        let sep=0;
-        for(let i=swap1+1;i<swap2;i++)
-            sep+=parseFloat(elems[i].props.size.slice(0,-2))+4;
-        sep+=parseFloat(elems[swap1].props.size.slice(0,-2))/2+4;
-        sep+=parseFloat(elems[swap2].props.size.slice(0,-2))/2+4;
-        setSeparacion(sep);
-
-        const newAnchos = [...bancho];
-        const newColor = [...bcolor];
+        const newAnchos = Array(props.cant).fill('2px');
+        const newColor = Array(props.cant).fill('lightslategray');
         
         for(let i=0;i<props.cant;i++) {
             if (i===swap1 || i===swap2){
@@ -67,6 +60,15 @@ function Main(props){
 
         setBancho(newAnchos);
         setBcolor(newColor);
+    },[props.cant]);
+
+    useEffect(() =>{
+        let sep=0;
+        for(let i=swap1+1;i<swap2;i++)
+            sep+=parseFloat(elems[i].props.size.slice(0,-2))+4;
+        sep+=parseFloat(elems[swap1].props.size.slice(0,-2))/2+4;
+        sep+=parseFloat(elems[swap2].props.size.slice(0,-2))/2+4;
+        setSeparacion(sep);
 
     },[swap1,swap2]);
 
